@@ -22,3 +22,7 @@
 ```python
 python3 img2fb.py --help
 ```
+
+## 补充
+- 用户层再往上搭建一层只显示文字，可以选用freetype，该库可以解析ttf文件，并生成图片，有C库以及对应的python wrapper。
+- 再往上搭建一层可参考代码 [[https://github.com/breakstring/eInkCalendarOfToxicSoul]]
