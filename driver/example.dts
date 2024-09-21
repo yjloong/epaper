@@ -1,0 +1,59 @@
+/* 以 imx6ul 为例 */
+/* touchscreen */
+&tsc {
+	status = "disabled";
+};
+
+&pwm1 {
+	status = "disabled";
+};
+
+/* can1 */
+&can1 {
+	status = "disabled";
+};
+&can2 {
+	status = "disabled";
+};
+
+&uart2 {
+	status = "disabled";
+};
+
+&iomuxc {
+	pinctrl_epaper: epapergrp {
+		fsl,pins = <
+		MX6UL_PAD_UART3_RTS_B__GPIO1_IO27         0x10b0
+		MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25       0x10b0
+		MX6UL_PAD_GPIO1_IO08__GPIO1_IO08          0x10b0
+		>;
+	};
+
+	pinctrl_epaper_spi: epaperspigrp {
+		fsl,pins = <
+		MX6UL_PAD_UART2_CTS_B__ECSPI3_MOSI        0x10b0
+		MX6UL_PAD_UART2_RX_DATA__ECSPI3_SCLK      0x10b0
+		MX6UL_PAD_UART2_TX_DATA__GPIO1_IO20       0x10b0
+		>;
+	};
+};
+
+&ecspi3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_epaper_spi>;
+	cs-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>; /* "fsl,imx6ul-ecspi", "fsl,imx51-ecspi" 这个spi控制器只支持挂载4个设备，且CS线需要使用特定的4个。 */
+	/* 暂未使用dma通道。 */
+	dmas=<>;
+	dma-names="";
+	status = "okay";
+
+	epaper: epaper@0 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_epaper>;
+		reg = <0>; /* 这个值代表使用的是这个spi控制器的第一个CS片选线。 */
+		compatible = "zjy,epaper";
+		reset-gpios = <&gpio1 27 GPIO_ACTIVE_LOW>;
+		dc-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
+		busy-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+	};
+};
