@@ -43,8 +43,6 @@
 	pinctrl-0 = <&pinctrl_epaper_spi>;
 	cs-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>; /* "fsl,imx6ul-ecspi", "fsl,imx51-ecspi" 这个spi控制器只支持挂载4个设备，且CS线需要使用特定的4个。 */
 	/* 暂未使用dma通道。 */
-	dmas=<>;
-	dma-names="";
 	status = "okay";
 
 	epaper: epaper@0 {
